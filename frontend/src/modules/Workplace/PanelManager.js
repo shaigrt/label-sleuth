@@ -18,7 +18,7 @@ import { Box } from '@mui/material';
 import useSearchElement from "./sidebar/customHooks/useSearchElement";
 import Drawer from '@mui/material/Drawer';
 import useUpdateLabelState from "./sidebar/customHooks/useUpdateLabelState";
-import { SEARCH, RCMD, RIGHT_DRAWER_WIDTH, POS_PREDICTIONS } from '../../const'
+import { SEARCH, RCMD, RIGHT_DRAWER_WIDTH, POS_PREDICTIONS, POS_ELEMENTS, DISAGREE_ELEMENTS, SUSPICIOUS_ELEMENTS, CONTRADICTIVE_ELEMENTS } from '../../const'
 import MainPanel from "./main/MainPanel";
 
 export const PanelManager = ({ activePanel,
@@ -27,7 +27,15 @@ export const PanelManager = ({ activePanel,
     open
 }) => {
 
-    const { updateSearchLabelState, updateRecLabelState, updateMainLabelState, updatePosPredLabelState } = useUpdateLabelState()
+    const { updateSearchLabelState,
+        updateRecLabelState,
+        updateMainLabelState,
+        updatePosPredLabelState,
+        updatePosElemLabelState,
+        updateDisagreelemLabelState,
+        updateSuspiciouslemLabelState,
+        updateContradictivelemLabelState,
+    } = useUpdateLabelState()
 
     const { handleSearchPanelClick,
         handleSearchInputEnterKey,
@@ -66,6 +74,42 @@ export const PanelManager = ({ activePanel,
                     searchInput,
                     updateMainLabelState,
                     updateLabelState: updatePosPredLabelState,
+                    open,
+                });
+            }
+            else if (activePanel == POS_ELEMENTS) {
+                return React.cloneElement(child, {
+                    handleSearchPanelClick,
+                    searchInput,
+                    updateMainLabelState,
+                    updateLabelState: updatePosElemLabelState,
+                    open,
+                });
+            }
+            else if (activePanel == DISAGREE_ELEMENTS) {
+                return React.cloneElement(child, {
+                    handleSearchPanelClick,
+                    searchInput,
+                    updateMainLabelState,
+                    updateLabelState: updateDisagreelemLabelState,
+                    open,
+                });
+            }
+            else if (activePanel == SUSPICIOUS_ELEMENTS) {
+                return React.cloneElement(child, {
+                    handleSearchPanelClick,
+                    searchInput,
+                    updateMainLabelState,
+                    updateLabelState: updateSuspiciouslemLabelState,
+                    open,
+                });
+            }
+            else if (activePanel == CONTRADICTIVE_ELEMENTS) {
+                return React.cloneElement(child, {
+                    handleSearchPanelClick,
+                    searchInput,
+                    updateMainLabelState,
+                    updateLabelState: updateContradictivelemLabelState,
                     open,
                 });
             }

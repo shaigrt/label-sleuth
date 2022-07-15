@@ -24,6 +24,7 @@ import useLabelState from './customHooks/useLabelState';
 const RecToLabelPanel = ({ updateMainLabelState, updateLabelState }) => {
 
     const workspace = useSelector(state => state.workspace)
+    const elementsToLabel = useSelector(state => state.workspace.elementsToLabel)
     let newRecLabelState = { ...workspace.recommendToLabelState }
     const currRecLabelState = workspace.recommendToLabelState
     const { handlePosLabelState, handleNegLabelState } = useLabelState(newRecLabelState, updateMainLabelState, updateLabelState)
@@ -36,7 +37,7 @@ const RecToLabelPanel = ({ updateMainLabelState, updateLabelState }) => {
             </Box>
 
             <Box className={classes["search-results"]} >
-                {workspace.elementsToLabel.map((res, i) => {
+                {elementsToLabel && elementsToLabel.map((res, i) => {
                     return (
                         <Element
                             key={i}

@@ -21,30 +21,35 @@ import Element from './Element';
 import useSearchElement from './customHooks/useSearchElement';
 import useLabelState from './customHooks/useLabelState';
 
-const PosPredictionsPanel = ({ updateMainLabelState, updateLabelState }) => {
+const DisagreeElemPanel = ({ updateMainLabelState, updateLabelState }) => {
 
     const workspace = useSelector(state => state.workspace)
-    const posPredTotalElemRes = useSelector(state => state.workspace.posPredTotalElemRes)
-    const posPredFraction = useSelector(state => state.workspace.posPredFraction)
-    const posPredResult = useSelector(state => state.workspace.posPredResult)
-    let newPosPredLabelState = { ...workspace.posPredLabelState}
-    const currPosPredLabelState = workspace.posPredLabelState
-    const { handlePosLabelState, handleNegLabelState } = useLabelState(newPosPredLabelState, updateMainLabelState, updateLabelState)
+    const disagreeElemResult = useSelector(state => state.workspace.disagreeElemResult)
+    let newDisagreeElemLabelState = { ...workspace.disagreeElemLabelState}
+    const currDisagreeElemLabelState = workspace.disagreeElemLabelState
+    const { handlePosLabelState, handleNegLabelState } = useLabelState(newDisagreeElemLabelState, updateMainLabelState, updateLabelState)
     const { handleSearchPanelClick, searchInput } = useSearchElement()
 
     return (
         <Box>
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItem: 'center', marginTop: "11px", borderBottom: "1px solid #e2e2e2", pb: "12px", justifyContent: 'center' }} >
-                <p style={{ width: '100%', textAlign: "center"  }}><strong>Positive predictions</strong></p>
+                <p style={{ width: '100%', textAlign: "center"  }}><strong>Disagreements labels</strong></p>
             </Box>
-            {posPredResult && posPredResult.length > 0 &&
+            {(!disagreeElemResult || disagreeElemResult.length == 0)?
                 <Box  sx={{ display: "flex", justifyContent: "center", mt:1, fontSize: "0.8rem", color: "rgba(0,0,0,.54)" }} >
                     <Typography sx={{ display: "flex", justifyContent: "center", fontSize: "0.8rem", color: "rgba(0,0,0,.54)" }}>
-                        {`${posPredTotalElemRes}  positive in workspace, ${Number((posPredFraction).toFixed(1))*100}% of all text elements`} 
+                        {`No model predictions disagree with user labels.`} 
                     </Typography>
-                </Box>}
-            <Box className={classes["search-results"]} sx={{mt:2}}>
-                { posPredResult && posPredResult.map((res, i) => {
+                </Box> 
+               :
+               <Box  sx={{ display: "flex", justifyContent: "center", mt:1, fontSize: "0.8rem", color: "rgba(0,0,0,.54)" }} >
+                <Typography sx={{ display: "flex", justifyContent: "center", fontSize: "0.8rem", color: "rgba(0,0,0,.54)" }}>
+                    {`${disagreeElemResult.length} model predictions disagree with user labels. `} 
+                </Typography>
+              </Box> 
+             }
+            <Box className={classes["search-results"]} sx={{mt:1}}>
+                {disagreeElemResult && disagreeElemResult.map((res, i) => {
                     return (
                         <Element
                             key={i}
@@ -58,7 +63,7 @@ const PosPredictionsPanel = ({ updateMainLabelState, updateLabelState }) => {
                             handleSearchPanelClick={handleSearchPanelClick}
                             handlePosLabelState={handlePosLabelState}
                             handleNegLabelState={handleNegLabelState}
-                            labelState={currPosPredLabelState}
+                            labelState={currDisagreeElemLabelState}
                         />
                     )
                 })}
@@ -67,4 +72,4 @@ const PosPredictionsPanel = ({ updateMainLabelState, updateLabelState }) => {
     );
 };
 
-export default PosPredictionsPanel;
+export default DisagreeElemPanel;

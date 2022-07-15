@@ -68,6 +68,15 @@ display: inline-block;
     background: rgb(163, 216, 229);
 }
 
+.separator{
+    margin-bottom: 20px;
+    border-bottom: 40px solid white;
+}
+
+.separator:nth-child(2n+1){
+    border-bottom: none;  
+}
+
 .elem_text{
     padding: 1px 10px 1px 10px;
 }
@@ -153,3 +162,4 @@ display: inline-block;
     border-radius: 2px !important;
     opacity: 0.1;
 }
+ 

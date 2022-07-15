@@ -13,9 +13,21 @@
     limitations under the License.
 */
 
-import { setElementLabel, checkStatus, setLabelState, increaseIdInBatch, setSearchLabelState, setNumLabel, setNumLabelGlobal, setRecommendToLabelState, setPosPredLabelState } from '../../DataSlice';
+import { setElementLabel, 
+    checkStatus, 
+    setLabelState, 
+    increaseIdInBatch, 
+    setSearchLabelState, 
+    setNumLabel, 
+    setNumLabelGlobal, 
+    setRecommendToLabelState, 
+    setPosPredLabelState, 
+    setPosElemLabelState, 
+    setSuspiciousElemLabelState, 
+    setDisagreeElemLabelState, 
+    setContradictiveElemLabelState } from '../../DataSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { POS_PREDICTIONS, RCMD, SEARCH } from '../../../../const';
+import { CONTRADICTIVE_ELEMENTS, DISAGREE_ELEMENTS, POS_ELEMENTS, POS_PREDICTIONS, RCMD, SEARCH, SUSPICIOUS_ELEMENTS } from '../../../../const';
 
 const useElemLabelState = ({ index, element_id }) => {
 
@@ -52,6 +64,26 @@ const useElemLabelState = ({ index, element_id }) => {
         searchPanelIndex = getSearchPanelIndex(newPanelLabelState)
        }
 
+       else if(activePanel == POS_ELEMENTS){
+        newPanelLabelState = { ...workspace.posElemLabelState }
+        searchPanelIndex = getSearchPanelIndex(newPanelLabelState)
+       }
+
+       else if(activePanel == SUSPICIOUS_ELEMENTS){
+        newPanelLabelState = { ...workspace.suspiciousElemLabelState }
+        searchPanelIndex = getSearchPanelIndex(newPanelLabelState)
+       }
+
+       else if(activePanel == DISAGREE_ELEMENTS){
+        newPanelLabelState = { ...workspace.disagreeElemLabelState }
+        searchPanelIndex = getSearchPanelIndex(newPanelLabelState)
+       }
+
+       else if(activePanel == CONTRADICTIVE_ELEMENTS){
+        newPanelLabelState = { ...workspace.contradictiveElemPairsLabelState}
+        searchPanelIndex = getSearchPanelIndex(newPanelLabelState)
+       }
+
        const updateLabelsState = (element_id, label, newPanelLabelState, newMainState) => {
         dispatch(increaseIdInBatch())
         dispatch(setElementLabel({ element_id: element_id, docid: workspace.curDocName, label: label })).then(() => {
@@ -66,7 +98,18 @@ const useElemLabelState = ({ index, element_id }) => {
         else if(activePanel == POS_PREDICTIONS){
             dispatch(setPosPredLabelState(newPanelLabelState))
         }
-        
+        else if(activePanel == POS_ELEMENTS){
+            dispatch(setPosElemLabelState(newPanelLabelState))
+        }
+        else if(activePanel == SUSPICIOUS_ELEMENTS){
+            dispatch(setSuspiciousElemLabelState(newPanelLabelState))
+        }
+        else if(activePanel == DISAGREE_ELEMENTS){
+            dispatch(setDisagreeElemLabelState(newPanelLabelState))
+        }
+        else if(activePanel == CONTRADICTIVE_ELEMENTS){
+            dispatch(setContradictiveElemLabelState(newPanelLabelState))
+        }
         dispatch(setLabelState(newMainState))
     }
 

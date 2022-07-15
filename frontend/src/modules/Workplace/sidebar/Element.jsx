@@ -45,7 +45,7 @@ export default function Element(props) {
     const { text_colors, handleTextElemStyle } = PanelStyles(prediction)
     const searchedElemIndex = `L${searchedIndex}-${id}`
     const workspace = useSelector(state => state.workspace)
-
+ 
     return (
         <Paper onClick={()=> handleSearchPanelClick(docid, id)}
             className={handleTextElemStyle()}

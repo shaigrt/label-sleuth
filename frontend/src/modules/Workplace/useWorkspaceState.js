@@ -22,10 +22,14 @@ import {
   setIsCategoryLoaded,
   checkModelUpdate,
   fetchElements,
-  getPositiveElementForCategory,
+  getPosPredElementForCategory,
   setFocusedState,
   getPositivePredictions,
-  setWorkspaceVisited
+  setWorkspaceVisited,
+  getDisagreeElements,
+  getSuspiciousElements,
+  getContradictiveElements,
+  getPositiveElements
 } from "./DataSlice.jsx";
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -79,8 +83,12 @@ const useWorkspaceState = () => {
     // also the status is updated
     if (workspace.curCategory !== null && workspace.model_version >= 0) {
       dispatch(getElementToLabel());
-      dispatch(getPositiveElementForCategory());
+      dispatch(getPosPredElementForCategory());
       dispatch(getPositivePredictions())
+      dispatch(getPositiveElements())
+      dispatch(getDisagreeElements())
+      dispatch(getSuspiciousElements())
+      dispatch(getContradictiveElements())
       dispatch(checkStatus());
     }
   }, [workspace.curCategory, workspace.model_version, dispatch]);
@@ -89,7 +97,11 @@ const useWorkspaceState = () => {
     // document changes and category is set and there is a model available
     // the positive predicted text entries has to be updated
     if (workspace.curCategory && workspace.model_version >= 0) {
-      dispatch(getPositiveElementForCategory());
+      dispatch(getPosPredElementForCategory());
+      dispatch(getPositiveElements())
+      dispatch(getDisagreeElements())
+      dispatch(getSuspiciousElements())
+      dispatch(getContradictiveElements())
     }
   }, [workspace.curCategory, workspace.model_version, dispatch]);
 };
